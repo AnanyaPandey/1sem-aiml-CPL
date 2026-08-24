@@ -32,6 +32,8 @@
 4. Decision boxes (diamonds) must have exactly two paths: **Yes/No** or **True/False**.
 5. Keep it simple and neat — avoid crossing lines where possible.
 
+![flowchart shapes meaning](https://venngage-wordpress.s3.amazonaws.com/uploads/2024/02/flowchart-symbols-meaning-1.png)
+
 ## 5. Example 1: Flowchart to Add Two Numbers
 
 **Steps in words:**
