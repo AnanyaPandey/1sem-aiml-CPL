@@ -55,13 +55,46 @@ float pi = 3.14;
 char grade = 'A';
 ```
 
-### Rules for naming variables (identifiers)
+### Rules for Naming Variables in C (Variables are also known as Identifiers)
 
-- Must start with a letter or underscore (`_`), not a digit
-- Can contain letters, digits, underscores
-- Cannot use C keywords (`int`, `float`, `return`, etc.)
-- Case-sensitive (`age` and `Age` are different)
-- No spaces or special characters (`@`, `-`, etc.)
+1. **Allowed characters:** letters (`a-z`, `A-Z`), digits (`0-9`), and underscore (`_`) only.
+2. **Must start with** a letter or underscore. It cannot start with a digit.
+3. **No spaces** and no special characters like `@`, `#`, `-`, `$`, `%`.
+4. **Cannot be a keyword** (reserved words like `int`, `float`, `return`, `if`, `while`, `for`).
+5. **Case-sensitive:** `age`, `Age`, and `AGE` are three different variables.
+6. **Must be unique** within the same scope. You cannot declare two variables with the same name in the same function.
+7. **No fixed length limit in practice,** but the compiler guarantees only the first 31 characters are significant. Keep names short and meaningful.
+
+#### Valid names
+
+c
+
+```c
+int age;
+int _count;
+int total2;
+float student_marks;
+```
+
+#### Invalid names
+
+c
+
+```c
+int 2total;       // starts with a digit
+int total marks;  // has a space
+int my-var;       // hyphen not allowed
+int float;        // keyword
+int price$;       // special character
+```
+
+#### Good practice (not a rule)
+
+- Use meaningful names: `totalMarks` is better than `tm`.
+- Use `camelCase` (`totalMarks`) or `snake_case` (`total_marks`) and stay consistent.
+- Avoid starting with an underscore, since names like `_Bool` and `__main` are used by the compiler and libraries.
+
+
 
 ------
 
@@ -178,3 +211,293 @@ int main() {
 - `printf` — output
 - `scanf` — input (note the `&` before variable names — it passes the memory address)
 - `%d` — format specifier for `int` (use `%f` for float, `%c` for char, `%lf` for double)
+
+## 8. Testing and Debugging
+
+### Testing vs Debugging
+
+**Testing** is finding out *whether* there is a problem in the program.
+ **Debugging** is finding out *where* the problem is and fixing it.
+
+Testing comes first. Debugging happens only if testing finds a bug.
+
+| Aspect            | Testing                                   | Debugging                             |
+| ----------------- | ----------------------------------------- | ------------------------------------- |
+| Purpose           | Check if the program works correctly      | Find the cause of an error and fix it |
+| Question answered | "Is there a bug?"                         | "Where is the bug and why?"           |
+| Done by           | Tester or programmer                      | Programmer                            |
+| Input             | Test cases (inputs with expected outputs) | The failing test case and the code    |
+| Output            | Report of pass/fail, list of defects      | Corrected code                        |
+| Order             | First                                     | After testing finds a defect          |
+
+#### Example
+
+Program to find the average of two numbers:
+
+c
+
+```c
+float avg = a + b / 2;   // wrong
+```
+
+- **Testing:** You run it with `a = 4, b = 6`. Expected output is `5`, but the program prints `7`. Test **fails**, so a bug exists.
+- **Debugging:** You trace the code and find the problem: `/` runs before `+` (precedence). You fix it:
+
+c
+
+```c
+float avg = (a + b) / 2.0;
+```
+
+Then you test again to confirm the fix works.
+
+#### Quick way to remember
+
+- Testing = **detect** the problem
+- Debugging = **diagnose and cure** the problem
+
+### Types of Operators in C
+
+An operator is a symbol that performs an action on operands (values or variables).
+
+#### 1. Arithmetic Operators
+
+| Operator | Meaning             | Example | Result                 |
+| -------- | ------------------- | ------- | ---------------------- |
+| `+`      | Addition            | `5 + 2` | `7`                    |
+| `-`      | Subtraction         | `5 - 2` | `3`                    |
+| `*`      | Multiplication      | `5 * 2` | `10`                   |
+| `/`      | Division            | `5 / 2` | `2` (integer division) |
+| `%`      | Modulus (remainder) | `5 % 2` | `1`                    |
+
+#### 2. Relational Operators
+
+Compare two values. Result is `1` (true) or `0` (false).
+
+| Operator | Meaning               | Example  | Result |
+| -------- | --------------------- | -------- | ------ |
+| `==`     | Equal to              | `5 == 5` | `1`    |
+| `!=`     | Not equal to          | `5 != 3` | `1`    |
+| `>`      | Greater than          | `5 > 3`  | `1`    |
+| `<`      | Less than             | `5 < 3`  | `0`    |
+| `>=`     | Greater than or equal | `5 >= 5` | `1`    |
+| `<=`     | Less than or equal    | `4 <= 3` | `0`    |
+
+Common mistake: `=` assigns a value, `==` compares. Writing `if (x = 5)` instead of `if (x == 5)` is a classic bug.
+
+#### 3. Logical Operators
+
+Combine conditions.
+
+| Operator | Meaning                | Example              | Result |
+| -------- | ---------------------- | -------------------- | ------ |
+| `&&`     | AND (both true)        | `(5 > 3) && (2 > 1)` | `1`    |
+| `||`     | OR (at least one true) | `(5 > 3) || (2 > 8)` | `1`    |
+| `!`      | NOT (reverses)         | `!(5 > 3)`           | `0`    |
+
+#### 4. Assignment Operators
+
+| Operator | Example  | Same as        |
+| -------- | -------- | -------------- |
+| `=`      | `a = 5`  | store 5 in `a` |
+| `+=`     | `a += 3` | `a = a + 3`    |
+| `-=`     | `a -= 3` | `a = a - 3`    |
+| `*=`     | `a *= 3` | `a = a * 3`    |
+| `/=`     | `a /= 3` | `a = a / 3`    |
+| `%=`     | `a %= 3` | `a = a % 3`    |
+
+#### 5. Increment and Decrement Operators
+
+| Operator | Meaning       |
+| -------- | ------------- |
+| `++`     | Increase by 1 |
+| `--`     | Decrease by 1 |
+
+Prefix vs postfix:
+
+c
+
+```c
+int a = 5;
+int b = ++a;   // prefix: increase first, then use → a = 6, b = 6
+
+int c = 5;
+int d = c++;   // postfix: use first, then increase → c = 6, d = 5
+```
+
+#### 6. Bitwise Operators
+
+Work on individual bits of integers.
+
+| Operator | Meaning         | Example (`a=5` is `0101`, `b=3` is `0011`) |
+| -------- | --------------- | ------------------------------------------ |
+| `&`      | AND             | `a & b` → `1`                              |
+| `|`      | OR              | `a | b` → `7`                              |
+| `^`      | XOR             | `a ^ b` → `6`                              |
+| `~`      | NOT (flip bits) | `~a` → `-6`                                |
+| `<<`     | Left shift      | `a << 1` → `10`                            |
+| `>>`     | Right shift     | `a >> 1` → `2`                             |
+
+#### 7. Conditional (Ternary) Operator
+
+The only operator that takes **three** operands. Short form of if-else.
+
+c
+
+```c
+result = (condition) ? value_if_true : value_if_false;
+
+int max = (a > b) ? a : b;
+```
+
+#### 8. Special Operators
+
+| Operator | Purpose                             | Example             |
+| -------- | ----------------------------------- | ------------------- |
+| `sizeof` | Size of a type or variable in bytes | `sizeof(int)` → `4` |
+| `&`      | Address of a variable               | `&x`                |
+| `*`      | Value at an address (pointer)       | `*p`                |
+| `,`      | Comma, separates expressions        | `a = 1, b = 2`      |
+
+`&` and `*` as address operators are used with pointers, which is a later topic.
+
+------
+
+### Classification by Number of Operands
+
+| Type    | Operands | Examples                       |
+| ------- | -------- | ------------------------------ |
+| Unary   | 1        | `++`, `--`, `!`, `sizeof`, `~` |
+| Binary  | 2        | `+`, `-`, `*`, `==`, `&&`, `=` |
+| Ternary | 3        | `? :`                          |
+
+### Precedence (High to Low, simplified)
+
+1. `()` Highest Precedence
+2. `++`, `--`, `!` (unary)
+3. `*`, `/`, `%`
+4. `+`, `-`
+5. `<`, `<=`, `>`, `>=`
+6. `==`, `!=`
+7. `&&`
+8. `||`
+9. `? :`
+10. `=`, `+=`, `-=`, etc.
+
+For your Unit 2 syllabus, the key ones are **arithmetic, relational, logical, assignment, and increment/decrement**. Bitwise and special operators are good to know but come up less.
+
+### 1. Expression
+
+An expression is a combination of **operands** (variables, constants, values) and **operators** that gives a **single value**.
+
+c
+
+```c
+a + b          // arithmetic expression
+x > 10         // relational expression (result is 1 or 0)
+a > 5 && b < 3 // logical expression
+x = 5 + 2      // assignment expression
+```
+
+Parts of `a + b`:
+
+- `a`, `b` are **operands**
+- `+` is the **operator**
+
+Types of expressions:
+
+| Type       | Example              | Result                    |
+| ---------- | -------------------- | ------------------------- |
+| Arithmetic | `5 + 3 * 2`          | number (`11`)             |
+| Relational | `5 > 3`              | `1` (true) or `0` (false) |
+| Logical    | `(5 > 3) && (2 > 1)` | `1` or `0`                |
+| Assignment | `x = 10`             | assigns value to `x`      |
+
+Even a single variable or number alone (`x` or `10`) is a valid expression.
+
+------
+
+### 2. Literal
+
+A literal is a **fixed value written directly in the code**.
+
+| Type                   | Examples                         |
+| ---------------------- | -------------------------------- |
+| Integer literal        | `10`, `-5`, `0`                  |
+| Floating-point literal | `3.14`, `-0.5`, `2.5e3` (= 2500) |
+| Character literal      | `'A'`, `'7'`, `'\n'`             |
+| String literal         | `"Hello"`, `"C language"`        |
+
+Optional suffixes tell the compiler the exact type:
+
+c
+
+```c
+100L      // long
+100U      // unsigned
+3.14f     // float (without f, 3.14 is a double)
+```
+
+Other number systems:
+
+c
+
+```c
+int a = 0x1F;   // hexadecimal (31)
+int b = 012;    // octal (10)
+```
+
+------
+
+### 3. Constant
+
+A constant is a value that **cannot change** while the program runs.
+
+Two ways to create a named constant:
+
+c
+
+```c
+const int MAX = 100;     // using const keyword
+#define PI 3.14159        // using #define (preprocessor)
+```
+
+If you try to change it, you get a compile error:
+
+c
+
+```c
+MAX = 200;   // ERROR: cannot assign to a const variable
+```
+
+|                 | `const` | `#define`                              |
+| --------------- | ------- | -------------------------------------- |
+| Has a data type | Yes     | No                                     |
+| Uses memory     | Yes     | No (text is replaced before compiling) |
+| Ends with `;`   | Yes     | No                                     |
+
+------
+
+### 4. How They Fit Together
+
+c
+
+```c
+const int MAX = 100;
+int x = 10;
+int y = x + 5;
+```
+
+- `10`, `100`, `5` → **literals** (the values themselves)
+- `MAX` → **constant** (a named value that cannot change)
+- `x`, `y` → **variables** (can change)
+- `x + 5` → **expression** (gives a value, assigned to `y`)
+
+#### Literal vs Constant
+
+- **Literal** = the value itself, typed directly (`100`)
+- **Constant** = a name that holds a fixed value (`MAX`)
+
+Using `MAX` instead of writing `100` everywhere is better: if the value changes, you edit it in one place only.
+
+Want me to add this to your markdown notes?
